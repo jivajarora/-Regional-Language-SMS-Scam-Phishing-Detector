@@ -5,25 +5,27 @@ This project is a defensive consumer-protection tool designed to detect phishing
 It provides two core pipelines for comparison:
 1. **Phase 1 Baseline**: A fast TF-IDF character/word n-gram pipeline feeding a Logistic Regression classifier, optimized for recall with engineered auxiliary features (short URLs, urgency counts, OTP/PIN/CVV requests, sender type).
 2. **Phase 2 Transformer**: A fine-tuned multilingual transformer model (`google/muril-base-cased` - Multilingual Representations for Indian Languages) that captures semantic syntax and code-mixed (Hindi/Hinglish) text patterns.
+3. **Phase 4 Android Client**: A client-side Kotlin application that intercepts incoming messages on-device and applies the trained baseline classifier locally without remote connections.
 
 ---
 
 ## 📄 Project Documentation & Portfolio Reports
-For detailed explanations of the engineering process, dataset curation, and diagnostic error analysis, review the following portfolio reports:
+For detailed explanations of the engineering process, dataset curation, privacy safeguards, and diagnostic error analysis, review the following portfolio reports:
 * **[PROJECT_REPORT.md](PROJECT_REPORT.md)**: Executive summary, system architecture diagram, key evaluation tables, and development roadmap.
 * **[DATASET_METHODOLOGY.md](DATASET_METHODOLOGY.md)**: In-depth details on template-sourcing, synthetic data-augmentation, distributions, and candidate limitations.
 * **[error_analysis_report.md](error_analysis_report.md)**: Failure analysis report, identifying structural challenges (such as spelling standardisation gaps and semantic warnings negation) and how the transformer corrects them.
+* **[PRIVACY.md](PRIVACY.md)**: Verifiable data protection guarantees, explaining how local SQLite storage and zero-network access (`INTERNET` permission omission) ensure cryptographic privacy.
 
 ---
 
 ## Technical Stack
-- **Language**: Python 3.11+
+- **Language**: Python 3.11+, Kotlin 1.9
 - **Data Handling**: pandas, numpy
 - **Machine Learning**: scikit-learn
 - **Deep Learning**: PyTorch, Hugging Face Transformers (`transformers`, `accelerate`)
+- **Android Framework**: Jetpack Compose, Room (SQLite DB), Android SDK (Min API 26)
 - **Web App**: FastAPI, uvicorn
 - **Serialization**: joblib
-- **Text Normalization**: Unicode-level normalization, Hinglish spelling mapping, and optional `indic-nlp-library` integration.
 - **Config Management**: PyYAML
 
 ---
@@ -39,6 +41,7 @@ regional-language-phishing-detector/
 ├── train_transformer.py          # Fine-tunes MuRIL model using Trainer API on CPU/GPU
 ├── evaluate_holdout.py           # Evaluates trained models on real held-out data
 ├── error_analysis.py             # Identifies misclassifications and outputs markdown report
+├── export_model_to_kotlin.py     # Compiles trained LR coefficients into JSON asset for Android
 ├── predict_v2.py                 # Multi-model prediction service (Baseline & Transformer)
 ├── app.py                        # FastAPI backend server
 ├── static/
@@ -49,6 +52,12 @@ regional-language-phishing-detector/
 ├── holdout_evaluation_results.json # Holdout predictions output and metrics
 ├── error_analysis_report.md      # Auto-generated failure critique report
 ├── screenshots/                  # Folder for demo screenshots
+├── PRIVACY.md                    # Privacy and permission guarantees
+├── android/                      # Kotlin/Jetpack Compose Android project
+│   ├── app/
+│   │   ├── src/main/assets/      # Directory where model_metadata.json is loaded
+│   │   └── src/main/java/...     # Preprocessor.kt, Classifier.kt, database and receiver classes
+│   └── build.gradle.kts          # Project Gradle configs
 └── logs/
     ├── training.log              # Baseline training logs
     └── transformer_training.log  # Transformer training logs
@@ -99,22 +108,46 @@ Generate the portfolio-ready markdown report detailing failure modes and causes 
 python error_analysis.py
 ```
 
+### 6. Export Model for Android On-Device Inference
+Export the weights, vocabulary, spelling map, and scaler boundaries of the trained baseline model to the Android assets directory:
+```bash
+python export_model_to_kotlin.py
+```
+
 ---
 
-## Usage Guide
+## Android App Sideloading & Build (Phase 4)
 
-### Running Predictions on the CLI
-Use the unified `predict_v2.py` CLI to query messages. You can select either the `baseline` or `transformer` models:
+Because Google restricts incoming SMS broadcast permissions (`RECEIVE_SMS`) on Google Play to default SMS handlers, this app is built for **sideloaded local demo and testing purposes** via a connected device or emulator.
 
-#### Using the Fine-Tuned Transformer (MuRIL) [Default]
-```bash
-python predict_v2.py "प्रिय ग्राहक, आपका SBI खाता ब्लॉक कर दिया गया है। तुरंत केवाईसी अपडेट करें: http://bit.ly/kyc-update-sbi" --model transformer
-```
+### Build and Install using Gradle Wrapper:
 
-#### Using the Baseline Model (Logistic Regression)
-```bash
-python predict_v2.py "Congratulations! You won a cash lottery. Call 9876543210 immediately." --model baseline --sender 9876543210
-```
+1. **Verify Asset Export**: Ensure you have executed the export command above to create:
+   `android/app/src/main/assets/model_metadata.json`
+2. **Open the Project**: Open the `android/` directory in Android Studio.
+3. **Compile the Debug APK**:
+   * On Windows:
+     ```bash
+     cd android
+     gradlew.bat assembleDebug
+     ```
+   * On Linux/macOS:
+     ```bash
+     cd android
+     ./gradlew assembleDebug
+     ```
+4. **Install the APK to connected device**:
+   Ensure USB Debugging is enabled on your device (or start an emulator), and run:
+   ```bash
+   adb install app/build/outputs/apk/debug/app-debug.apk
+   ```
+   *(Alternatively, run `./gradlew installDebug` from the `android/` directory).*
+
+### Running & Permission Checklist:
+- Launch the **PhishShield** app.
+- You will be presented with the **Consent screen** detailing the privacy guarantee (that no data leaves the device).
+- Click **Enable SMS Protection** and grant the requested SMS broadcast (`RECEIVE_SMS`) and log-read (`READ_SMS`) runtime permissions.
+- In settings, you can toggle protection on/off or click **Disable App Receiver** to suspend background monitoring immediately.
 
 ---
 
