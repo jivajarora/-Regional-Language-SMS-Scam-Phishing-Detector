@@ -1,10 +1,18 @@
-# Regional-Language SMS Phishing/Scam Detector (Phase 1 & 2)
+# Regional-Language SMS Phishing/Scam Detector
 
 This project is a defensive consumer-protection tool designed to detect phishing and financial fraud SMS or WhatsApp messages written in **Hindi, Hinglish (Roman-script Hindi), and English**.
 
 It provides two core pipelines for comparison:
 1. **Phase 1 Baseline**: A fast TF-IDF character/word n-gram pipeline feeding a Logistic Regression classifier, optimized for recall with engineered auxiliary features (short URLs, urgency counts, OTP/PIN/CVV requests, sender type).
 2. **Phase 2 Transformer**: A fine-tuned multilingual transformer model (`google/muril-base-cased` - Multilingual Representations for Indian Languages) that captures semantic syntax and code-mixed (Hindi/Hinglish) text patterns.
+
+---
+
+## 📄 Project Documentation & Portfolio Reports
+For detailed explanations of the engineering process, dataset curation, and diagnostic error analysis, review the following portfolio reports:
+* **[PROJECT_REPORT.md](PROJECT_REPORT.md)**: Executive summary, system architecture diagram, key evaluation tables, and development roadmap.
+* **[DATASET_METHODOLOGY.md](DATASET_METHODOLOGY.md)**: In-depth details on template-sourcing, synthetic data-augmentation, distributions, and candidate limitations.
+* **[error_analysis_report.md](error_analysis_report.md)**: Failure analysis report, identifying structural challenges (such as spelling standardisation gaps and semantic warnings negation) and how the transformer corrects them.
 
 ---
 
@@ -29,12 +37,18 @@ regional-language-phishing-detector/
 ├── preprocess.py                 # Unicode normalizer, Hinglish standardizer, and feature extractor
 ├── train_model.py                # Train/test split, baseline model training, evaluation, threshold tuning
 ├── train_transformer.py          # Fine-tunes MuRIL model using Trainer API on CPU/GPU
+├── evaluate_holdout.py           # Evaluates trained models on real held-out data
+├── error_analysis.py             # Identifies misclassifications and outputs markdown report
 ├── predict_v2.py                 # Multi-model prediction service (Baseline & Transformer)
 ├── app.py                        # FastAPI backend server
 ├── static/
 │   └── index.html                # Single-page web UI with inline premium styles
 ├── seed_messages.json            # Seed messages in Hindi, Hinglish, and English (scam & legit)
+├── holdout_messages.json         # Real held-out validation messages (scam & legit)
 ├── model_comparison.json         # Comparison metrics of baseline vs transformer
+├── holdout_evaluation_results.json # Holdout predictions output and metrics
+├── error_analysis_report.md      # Auto-generated failure critique report
+├── screenshots/                  # Folder for demo screenshots
 └── logs/
     ├── training.log              # Baseline training logs
     └── transformer_training.log  # Transformer training logs
@@ -72,6 +86,18 @@ Fine-tune the MuRIL model on CPU or GPU (it auto-detects GPU if available) and g
 python train_transformer.py
 ```
 This outputs `model_comparison.json`, comparing the precision, recall, F1, and accuracy of both models on the exact same train/test split.
+
+### 4. Run Holdout Evaluation
+Run predictions against the held-out real-world test set and compare holdout performance to train-split performance:
+```bash
+python evaluate_holdout.py
+```
+
+### 5. Generate Error Analysis Report
+Generate the portfolio-ready markdown report detailing failure modes and causes of misclassifications:
+```bash
+python error_analysis.py
+```
 
 ---
 
@@ -111,21 +137,3 @@ To launch the web interface locally:
 - **Confidence Meter**: Shows the classification likelihood.
 - **Triggering Words Highlight**: Words in the original message that triggered the flag are highlighted inline (using Unicode-aware word tokenizers in JavaScript).
 - **Disclaimer**: Visible footer highlighting educational/demonstration intent.
-
----
-
-## Interpretability & How Explanations Work
-
-### 1. Baseline Model Explanation
-For `baseline`, we inspect the mathematical weights (coefficients) of the trained Logistic Regression model:
-- The input string is preprocessed and tokenized.
-- Active features (word n-grams and engineered flags like shortened URLs) are multiplied by their coefficients.
-- Positive values that drive the prediction towards `scam` are sorted to surface the top triggers.
-
-### 2. Transformer Model Explanation
-For `transformer`, we extract token-level attention weights:
-- The model is loaded in `eager` mode (`attn_implementation="eager"`) to expose attention tensors.
-- During inference, we capture the final-layer attention weights.
-- We average the attention across all heads and extract the weights from the `[CLS]` token (which aggregates sequence information for classification) to all other tokens.
-- Subword tokens (WordPieces starting with `##`) are mapped back to their root words, and their attention weights are summed.
-- High-attention terms are filtered to ignore punctuation, yielding the words that most drove the transformer's decision.

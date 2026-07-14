@@ -1,0 +1,86 @@
+[
+  {
+    "text": "Alert: Your ICICI Netbanking account has been suspended. Please login to verify your profile details at http://t.ly/bank-verification to activate.",
+    "label": "scam",
+    "language": "english",
+    "sender": "AD-ICICIB",
+    "category": "kyc_fraud"
+  },
+  {
+    "text": "Congratulations, you have been selected for a part-time job earning 5000-8000 daily. Contact us on WhatsApp +918888877777 now.",
+    "label": "scam",
+    "language": "english",
+    "sender": "+918888877777",
+    "category": "job_scam"
+  },
+  {
+    "text": "चेतावनी! आपका बैंक खाता बंद कर दिया गया है। अपने खाते को पुनः सक्रिय करने के लिए इस लिंक पर तुरंत केवाईसी पूरा करें: http://wp.me/bank-kyc",
+    "label": "scam",
+    "language": "hindi",
+    "sender": "VK-KSHIELD",
+    "category": "kyc_fraud"
+  },
+  {
+    "text": "प्रिय यूजर, आपको 25000 रुपये का कैशबैक पुरस्कार मिला है। इनाम पाने के लिए तुरंत कॉल करें: +919010203040",
+    "label": "scam",
+    "language": "hindi",
+    "sender": "9010203040",
+    "category": "lottery_scam"
+  },
+  {
+    "text": "Urgent: Aapka card block ho chuka hai. Kripya verification complete karein 24 ghante ke andar is link par: http://netbanking-update.xyz",
+    "label": "scam",
+    "language": "hinglish",
+    "sender": "VK-ALERT",
+    "category": "kyc_fraud"
+  },
+  {
+    "text": "Mubarak ho! Aapka income tax refund claim approved ho gaya hai. Link par click karke details submit karein: http://refund-status-upi.org",
+    "label": "scam",
+    "language": "hinglish",
+    "sender": "AD-INCOME",
+    "category": "refund_scam"
+  },
+  {
+    "text": "Your login code for HDFC NetBanking is 9034. Valid for 5 minutes. Never share your login codes with anyone.",
+    "label": "legit",
+    "language": "english",
+    "sender": "AD-HDFCBK",
+    "category": "legit_otp"
+  },
+  {
+    "text": "Transaction Alert: Your account XX9081 has been debited with Rs. 1,500 on 14-07-2026. Ref No: 821908.",
+    "label": "legit",
+    "language": "english",
+    "sender": "VK-HDFCBK",
+    "category": "legit_transaction"
+  },
+  {
+    "text": "लॉगिन के लिए आपका सत्यापन कोड 309281 है। यह ओटीपी 5 मिनट के लिए सक्रिय है। इसे किसी से शेयर न करें।",
+    "label": "legit",
+    "language": "hindi",
+    "sender": "BZ-SBIINB",
+    "category": "legit_otp"
+  },
+  {
+    "text": "प्रिय ग्राहक, आपके खाते XX9081 में 10,000 रुपये क्रेडिट हुए हैं। रेफ: UPI9081230198.",
+    "label": "legit",
+    "language": "hindi",
+    "sender": "VK-BOBMSG",
+    "category": "legit_transaction"
+  },
+  {
+    "text": "Paytm par verification ke liye aapka OTP 482019 hai. Kripya kisi se share na karein.",
+    "label": "legit",
+    "language": "hinglish",
+    "sender": "BZ-PAYTM",
+    "category": "legit_otp"
+  },
+  {
+    "text": "Aapke axis bank account ending 4567 me Rs 5,000 credit hua hai today. Check balance on Axis app.",
+    "label": "legit",
+    "language": "hinglish",
+    "sender": "VK-AXISBK",
+    "category": "legit_transaction"
+  }
+]

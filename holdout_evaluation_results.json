@@ -1,0 +1,281 @@
+{
+  "baseline": {
+    "model_type": "logistic_regression (optimized)",
+    "decision_threshold": 0.2,
+    "metrics": {
+      "legit": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "scam": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 12.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 12.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        6,
+        0
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "predictions": [
+      {
+        "text": "Alert: Your ICICI Netbanking account has been suspended. Please login to verify your profile details at http://t.ly/bank-verification to activate.",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.45997767004231216,
+        "category": "kyc_fraud",
+        "language": "english"
+      },
+      {
+        "text": "Congratulations, you have been selected for a part-time job earning 5000-8000 daily. Contact us on WhatsApp +918888877777 now.",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.9926479712401233,
+        "category": "job_scam",
+        "language": "english"
+      },
+      {
+        "text": "\u091a\u0947\u0924\u093e\u0935\u0928\u0940! \u0906\u092a\u0915\u093e \u092c\u0948\u0902\u0915 \u0916\u093e\u0924\u093e \u092c\u0902\u0926 \u0915\u0930 \u0926\u093f\u092f\u093e \u0917\u092f\u093e \u0939\u0948\u0964 \u0905\u092a\u0928\u0947 \u0916\u093e\u0924\u0947 \u0915\u094b \u092a\u0941\u0928\u0903 \u0938\u0915\u094d\u0930\u093f\u092f \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0907\u0938 \u0932\u093f\u0902\u0915 \u092a\u0930 \u0924\u0941\u0930\u0902\u0924 \u0915\u0947\u0935\u093e\u0908\u0938\u0940 \u092a\u0942\u0930\u093e \u0915\u0930\u0947\u0902: http://wp.me/bank-kyc",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.9319716201213181,
+        "category": "kyc_fraud",
+        "language": "hindi"
+      },
+      {
+        "text": "\u092a\u094d\u0930\u093f\u092f \u092f\u0942\u091c\u0930, \u0906\u092a\u0915\u094b 25000 \u0930\u0941\u092a\u092f\u0947 \u0915\u093e \u0915\u0948\u0936\u092c\u0948\u0915 \u092a\u0941\u0930\u0938\u094d\u0915\u093e\u0930 \u092e\u093f\u0932\u093e \u0939\u0948\u0964 \u0907\u0928\u093e\u092e \u092a\u093e\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0924\u0941\u0930\u0902\u0924 \u0915\u0949\u0932 \u0915\u0930\u0947\u0902: +919010203040",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.993278274869487,
+        "category": "lottery_scam",
+        "language": "hindi"
+      },
+      {
+        "text": "Urgent: Aapka card block ho chuka hai. Kripya verification complete karein 24 ghante ke andar is link par: http://netbanking-update.xyz",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.9958454543460014,
+        "category": "kyc_fraud",
+        "language": "hinglish"
+      },
+      {
+        "text": "Mubarak ho! Aapka income tax refund claim approved ho gaya hai. Link par click karke details submit karein: http://refund-status-upi.org",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.6718769617992165,
+        "category": "refund_scam",
+        "language": "hinglish"
+      },
+      {
+        "text": "Your login code for HDFC NetBanking is 9034. Valid for 5 minutes. Never share your login codes with anyone.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.007621256964732242,
+        "category": "legit_otp",
+        "language": "english"
+      },
+      {
+        "text": "Transaction Alert: Your account XX9081 has been debited with Rs. 1,500 on 14-07-2026. Ref No: 821908.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.009825354712931077,
+        "category": "legit_transaction",
+        "language": "english"
+      },
+      {
+        "text": "\u0932\u0949\u0917\u093f\u0928 \u0915\u0947 \u0932\u093f\u090f \u0906\u092a\u0915\u093e \u0938\u0924\u094d\u092f\u093e\u092a\u0928 \u0915\u094b\u0921 309281 \u0939\u0948\u0964 \u092f\u0939 \u0913\u091f\u0940\u092a\u0940 5 \u092e\u093f\u0928\u091f \u0915\u0947 \u0932\u093f\u090f \u0938\u0915\u094d\u0930\u093f\u092f \u0939\u0948\u0964 \u0907\u0938\u0947 \u0915\u093f\u0938\u0940 \u0938\u0947 \u0936\u0947\u092f\u0930 \u0928 \u0915\u0930\u0947\u0902\u0964",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.010024590501584696,
+        "category": "legit_otp",
+        "language": "hindi"
+      },
+      {
+        "text": "\u092a\u094d\u0930\u093f\u092f \u0917\u094d\u0930\u093e\u0939\u0915, \u0906\u092a\u0915\u0947 \u0916\u093e\u0924\u0947 XX9081 \u092e\u0947\u0902 10,000 \u0930\u0941\u092a\u092f\u0947 \u0915\u094d\u0930\u0947\u0921\u093f\u091f \u0939\u0941\u090f \u0939\u0948\u0902\u0964 \u0930\u0947\u092b: UPI9081230198.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.019411779048694885,
+        "category": "legit_transaction",
+        "language": "hindi"
+      },
+      {
+        "text": "Paytm par verification ke liye aapka OTP 482019 hai. Kripya kisi se share na karein.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.00944352877742009,
+        "category": "legit_otp",
+        "language": "hinglish"
+      },
+      {
+        "text": "Aapke axis bank account ending 4567 me Rs 5,000 credit hua hai today. Check balance on Axis app.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.009849180246456719,
+        "category": "legit_transaction",
+        "language": "hinglish"
+      }
+    ]
+  },
+  "transformer": {
+    "model_type": "google/muril-base-cased",
+    "decision_threshold": 0.5,
+    "metrics": {
+      "legit": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "scam": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 12.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 12.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        6,
+        0
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "predictions": [
+      {
+        "text": "Alert: Your ICICI Netbanking account has been suspended. Please login to verify your profile details at http://t.ly/bank-verification to activate.",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.5345796346664429,
+        "category": "kyc_fraud",
+        "language": "english"
+      },
+      {
+        "text": "Congratulations, you have been selected for a part-time job earning 5000-8000 daily. Contact us on WhatsApp +918888877777 now.",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.5366305112838745,
+        "category": "job_scam",
+        "language": "english"
+      },
+      {
+        "text": "\u091a\u0947\u0924\u093e\u0935\u0928\u0940! \u0906\u092a\u0915\u093e \u092c\u0948\u0902\u0915 \u0916\u093e\u0924\u093e \u092c\u0902\u0926 \u0915\u0930 \u0926\u093f\u092f\u093e \u0917\u092f\u093e \u0939\u0948\u0964 \u0905\u092a\u0928\u0947 \u0916\u093e\u0924\u0947 \u0915\u094b \u092a\u0941\u0928\u0903 \u0938\u0915\u094d\u0930\u093f\u092f \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0907\u0938 \u0932\u093f\u0902\u0915 \u092a\u0930 \u0924\u0941\u0930\u0902\u0924 \u0915\u0947\u0935\u093e\u0908\u0938\u0940 \u092a\u0942\u0930\u093e \u0915\u0930\u0947\u0902: http://wp.me/bank-kyc",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.5347478985786438,
+        "category": "kyc_fraud",
+        "language": "hindi"
+      },
+      {
+        "text": "\u092a\u094d\u0930\u093f\u092f \u092f\u0942\u091c\u0930, \u0906\u092a\u0915\u094b 25000 \u0930\u0941\u092a\u092f\u0947 \u0915\u093e \u0915\u0948\u0936\u092c\u0948\u0915 \u092a\u0941\u0930\u0938\u094d\u0915\u093e\u0930 \u092e\u093f\u0932\u093e \u0939\u0948\u0964 \u0907\u0928\u093e\u092e \u092a\u093e\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0924\u0941\u0930\u0902\u0924 \u0915\u0949\u0932 \u0915\u0930\u0947\u0902: +919010203040",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.5361781716346741,
+        "category": "lottery_scam",
+        "language": "hindi"
+      },
+      {
+        "text": "Urgent: Aapka card block ho chuka hai. Kripya verification complete karein 24 ghante ke andar is link par: http://netbanking-update.xyz",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.5355527997016907,
+        "category": "kyc_fraud",
+        "language": "hinglish"
+      },
+      {
+        "text": "Mubarak ho! Aapka income tax refund claim approved ho gaya hai. Link par click karke details submit karein: http://refund-status-upi.org",
+        "true_label": "scam",
+        "pred_label": "scam",
+        "confidence": 0.5368773937225342,
+        "category": "refund_scam",
+        "language": "hinglish"
+      },
+      {
+        "text": "Your login code for HDFC NetBanking is 9034. Valid for 5 minutes. Never share your login codes with anyone.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.4466286599636078,
+        "category": "legit_otp",
+        "language": "english"
+      },
+      {
+        "text": "Transaction Alert: Your account XX9081 has been debited with Rs. 1,500 on 14-07-2026. Ref No: 821908.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.4461928606033325,
+        "category": "legit_transaction",
+        "language": "english"
+      },
+      {
+        "text": "\u0932\u0949\u0917\u093f\u0928 \u0915\u0947 \u0932\u093f\u090f \u0906\u092a\u0915\u093e \u0938\u0924\u094d\u092f\u093e\u092a\u0928 \u0915\u094b\u0921 309281 \u0939\u0948\u0964 \u092f\u0939 \u0913\u091f\u0940\u092a\u0940 5 \u092e\u093f\u0928\u091f \u0915\u0947 \u0932\u093f\u090f \u0938\u0915\u094d\u0930\u093f\u092f \u0939\u0948\u0964 \u0907\u0938\u0947 \u0915\u093f\u0938\u0940 \u0938\u0947 \u0936\u0947\u092f\u0930 \u0928 \u0915\u0930\u0947\u0902\u0964",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.44622597098350525,
+        "category": "legit_otp",
+        "language": "hindi"
+      },
+      {
+        "text": "\u092a\u094d\u0930\u093f\u092f \u0917\u094d\u0930\u093e\u0939\u0915, \u0906\u092a\u0915\u0947 \u0916\u093e\u0924\u0947 XX9081 \u092e\u0947\u0902 10,000 \u0930\u0941\u092a\u092f\u0947 \u0915\u094d\u0930\u0947\u0921\u093f\u091f \u0939\u0941\u090f \u0939\u0948\u0902\u0964 \u0930\u0947\u092b: UPI9081230198.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.4460623562335968,
+        "category": "legit_transaction",
+        "language": "hindi"
+      },
+      {
+        "text": "Paytm par verification ke liye aapka OTP 482019 hai. Kripya kisi se share na karein.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.44559574127197266,
+        "category": "legit_otp",
+        "language": "hinglish"
+      },
+      {
+        "text": "Aapke axis bank account ending 4567 me Rs 5,000 credit hua hai today. Check balance on Axis app.",
+        "true_label": "legit",
+        "pred_label": "legit",
+        "confidence": 0.4469004273414612,
+        "category": "legit_transaction",
+        "language": "hinglish"
+      }
+    ]
+  },
+  "overfitting_warnings": []
+}
