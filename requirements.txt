@@ -5,3 +5,8 @@ joblib
 PyYAML
 indic-nlp-library
 morfessor
+torch
+transformers
+accelerate
+fastapi
+uvicorn

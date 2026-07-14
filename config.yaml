@@ -6,6 +6,11 @@ paths:
   model_dir: "models"
   metrics_report_path: "metrics_report.json"
   log_path: "logs/training.log"
+  # Phase 2 paths
+  transformer_model_dir: "models/muril_finetuned"
+  transformer_metrics_report_path: "transformer_metrics_report.json"
+  model_comparison_path: "model_comparison.json"
+  transformer_log_path: "logs/transformer_training.log"
 
 augmentation:
   # Number of synthetic variants to generate per seed message
@@ -100,3 +105,12 @@ model:
     n_estimators: 100
     max_depth: null
     class_weight: "balanced"
+  # Phase 2 Transformer model configuration
+  transformer:
+    model_name: "google/muril-base-cased"
+    epochs: 3
+    batch_size: 8
+    learning_rate: 2.0e-5
+    weight_decay: 0.01
+    warmup_ratio: 0.1
+    max_length: 128

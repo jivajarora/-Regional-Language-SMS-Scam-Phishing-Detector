@@ -1,8 +1,10 @@
-# Regional-Language SMS Phishing/Scam Detector (Phase 1)
+# Regional-Language SMS Phishing/Scam Detector (Phase 1 & 2)
 
-This project is a defensive consumer-protection tool designed to detect phishing and financial fraud SMS or WhatsApp messages written in **Hindi, Hinglish (Roman-script Hindi), and English**. 
+This project is a defensive consumer-protection tool designed to detect phishing and financial fraud SMS or WhatsApp messages written in **Hindi, Hinglish (Roman-script Hindi), and English**.
 
-It uses a machine learning pipeline combining **TF-IDF character/word n-grams** and **engineered auxiliary features** (like shortened URL presence, urgency keyword counts, OTP/PIN/CVV requests, and sender type analysis) to train Logistic Regression and Random Forest classifiers.
+It provides two core pipelines for comparison:
+1. **Phase 1 Baseline**: A fast TF-IDF character/word n-gram pipeline feeding a Logistic Regression classifier, optimized for recall with engineered auxiliary features (short URLs, urgency counts, OTP/PIN/CVV requests, sender type).
+2. **Phase 2 Transformer**: A fine-tuned multilingual transformer model (`google/muril-base-cased` - Multilingual Representations for Indian Languages) that captures semantic syntax and code-mixed (Hindi/Hinglish) text patterns.
 
 ---
 
@@ -10,6 +12,8 @@ It uses a machine learning pipeline combining **TF-IDF character/word n-grams** 
 - **Language**: Python 3.11+
 - **Data Handling**: pandas, numpy
 - **Machine Learning**: scikit-learn
+- **Deep Learning**: PyTorch, Hugging Face Transformers (`transformers`, `accelerate`)
+- **Web App**: FastAPI, uvicorn
 - **Serialization**: joblib
 - **Text Normalization**: Unicode-level normalization, Hinglish spelling mapping, and optional `indic-nlp-library` integration.
 - **Config Management**: PyYAML
@@ -19,78 +23,109 @@ It uses a machine learning pipeline combining **TF-IDF character/word n-grams** 
 ## Directory Structure
 ```
 regional-language-phishing-detector/
-├── config.yaml               # Configurable keywords, file paths, and hyperparameters
-├── requirements.txt          # Pinned dependency versions
-├── build_dataset.py          # Data augmentation and dataset assembly script
-├── preprocess.py             # Unicode normalizer, Hinglish standardizer, and feature extractor
-├── train_model.py            # Train/test split, model training, evaluation, threshold tuning
-├── predict.py                # Prediction service and CLI interface with local explanations
-├── seed_messages.json        # Seed messages in Hindi, Hinglish, and English (scam & legit)
+├── config.yaml                   # Configurable keywords, file paths, and hyperparameters
+├── requirements.txt              # Pinned dependency versions
+├── build_dataset.py              # Data augmentation and dataset assembly script
+├── preprocess.py                 # Unicode normalizer, Hinglish standardizer, and feature extractor
+├── train_model.py                # Train/test split, baseline model training, evaluation, threshold tuning
+├── train_transformer.py          # Fine-tunes MuRIL model using Trainer API on CPU/GPU
+├── predict_v2.py                 # Multi-model prediction service (Baseline & Transformer)
+├── app.py                        # FastAPI backend server
+├── static/
+│   └── index.html                # Single-page web UI with inline premium styles
+├── seed_messages.json            # Seed messages in Hindi, Hinglish, and English (scam & legit)
+├── model_comparison.json         # Comparison metrics of baseline vs transformer
 └── logs/
-    └── training.log          # Execution and training log file
+    ├── training.log              # Baseline training logs
+    └── transformer_training.log  # Transformer training logs
 ```
 
 ---
 
-## Getting Started
+## Installation & Setup
 
-### 1. Installation
 Install the required packages from `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Assembly and Data Augmentation
-Generate the augmented training set `dataset.csv` from your seeds:
+---
+
+## Running the Complete Pipeline
+
+### 1. Data Assembly and Augmentation
+Build the training dataset from the seeds in `seed_messages.json`:
 ```bash
 python build_dataset.py
 ```
+This generates the augmented dataset (`dataset.csv`).
 
-### 3. Model Training and Threshold Tuning
-Train the models, tune the decision threshold for high recall, and output performance metrics:
+### 2. Train the Baseline Model
+Train the TF-IDF + Logistic Regression/Random Forest models and perform threshold tuning:
 ```bash
 python train_model.py
 ```
-This script evaluates both **Logistic Regression** and **Random Forest** models, outputs metrics to `metrics_report.json`, logs data to `logs/training.log`, and saves the trained pipelines to `models/`.
 
-### 4. Running Predictions
-Run prediction and see explanations on the command line:
+### 3. Fine-tune the Multilingual Transformer
+Fine-tune the MuRIL model on CPU or GPU (it auto-detects GPU if available) and generate side-by-side performance comparisons:
 ```bash
-python predict.py "Congratulations! You won a cash lottery of Rs. 10,000. Call 9876543210 immediately to claim." --sender "9876543210"
+python train_transformer.py
 ```
-Or for regional languages:
+This outputs `model_comparison.json`, comparing the precision, recall, F1, and accuracy of both models on the exact same train/test split.
+
+---
+
+## Usage Guide
+
+### Running Predictions on the CLI
+Use the unified `predict_v2.py` CLI to query messages. You can select either the `baseline` or `transformer` models:
+
+#### Using the Fine-Tuned Transformer (MuRIL) [Default]
 ```bash
-python predict.py "प्रिय ग्राहक, आपका SBI खाता ब्लॉक कर दिया गया है। तुरंत केवाईसी अपडेट करें: http://bit.ly/kyc-update-sbi" --sender "AD-SBI"
+python predict_v2.py "प्रिय ग्राहक, आपका SBI खाता ब्लॉक कर दिया गया है। तुरंत केवाईसी अपडेट करें: http://bit.ly/kyc-update-sbi" --model transformer
+```
+
+#### Using the Baseline Model (Logistic Regression)
+```bash
+python predict_v2.py "Congratulations! You won a cash lottery. Call 9876543210 immediately." --model baseline --sender 9876543210
 ```
 
 ---
 
-## Detailed Operations
+## Running the Interactive Web Demo
 
-### How to Add Seed Examples
-All seed message templates are defined in `seed_messages.json`. You can add your own examples by appending objects using this schema:
-```json
-  {
-    "text": "Dear customer, your {bank} account has been suspended. Update KYC at {link} now.",
-    "label": "scam",
-    "language": "english",
-    "sender": "AD-KAlert"
-  }
-```
-* **Placeholders**: You can use placeholders like `{bank}`, `{amount}`, `{phone}`, `{link}`, `{otp}`, `{account_no}`, `{date}`, or `{ref_no}`. The augmentation pipeline will automatically replace these with randomized values from a pool to generate synthetic messages.
-* **Label**: Set to `"scam"` or `"legit"`.
-* **Language**: Set to `"hindi"`, `"hinglish"`, or `"english"`.
-* **Sender**: Specify a sender name or number to train the sender pattern classifier (e.g. shortcodes, alpha headers, or standard numbers).
+To launch the web interface locally:
 
-### How Synthetic Augmentation Works
-The `build_dataset.py` script performs two stages of programmatic augmentation to expand seed volume defensively:
-1. **Placeholder Substitution**: Randomly replaces curly-bracket placeholders (e.g., `{bank}`) with realistic entities (e.g., "SBI", "Paytm", "HDFC").
-2. **Contextual Synonym Swapping**: Detects key threat words or transactional terms and swaps them with script-appropriate synonyms (e.g., "blocked" $\leftrightarrow$ "suspended", "तुरंत" $\leftrightarrow$ "जल्दी", "OTP" $\leftrightarrow$ "verification code") based on a configurable dictionary.
-3. **Random Perturbation**: Varies synthetic sender IDs to match standard mobile patterns, shortcode rules, or alpha-sender formats to prevent the classifier from over-fitting.
+1. Start the FastAPI server:
+   ```bash
+   python app.py
+   ```
+2. Open your web browser and navigate to:
+   ```
+   http://127.0.0.1:8000
+   ```
 
-### Model Interpretability (Trigger Terms)
-When classifying a message, `predict.py` analyzes the prediction using the weights of the trained **Logistic Regression** pipeline:
-- Active words or n-grams are extracted using the TF-IDF vocabulary mapping.
-- Auxiliary features (like URL presence or urgency score) are extracted.
-- Individual feature values are multiplied by their model coefficients.
-- Positive values that drive the prediction towards the `scam` classification are sorted and displayed as **Top triggering indicators** on the CLI.
+### Web UI Features:
+- **Interactive Input**: Paste any message in English, Hindi, or Hinglish.
+- **Model Selector**: Switch dynamically between the fast TF-IDF Baseline or the fine-tuned MuRIL Transformer.
+- **Confidence Meter**: Shows the classification likelihood.
+- **Triggering Words Highlight**: Words in the original message that triggered the flag are highlighted inline (using Unicode-aware word tokenizers in JavaScript).
+- **Disclaimer**: Visible footer highlighting educational/demonstration intent.
+
+---
+
+## Interpretability & How Explanations Work
+
+### 1. Baseline Model Explanation
+For `baseline`, we inspect the mathematical weights (coefficients) of the trained Logistic Regression model:
+- The input string is preprocessed and tokenized.
+- Active features (word n-grams and engineered flags like shortened URLs) are multiplied by their coefficients.
+- Positive values that drive the prediction towards `scam` are sorted to surface the top triggers.
+
+### 2. Transformer Model Explanation
+For `transformer`, we extract token-level attention weights:
+- The model is loaded in `eager` mode (`attn_implementation="eager"`) to expose attention tensors.
+- During inference, we capture the final-layer attention weights.
+- We average the attention across all heads and extract the weights from the `[CLS]` token (which aggregates sequence information for classification) to all other tokens.
+- Subword tokens (WordPieces starting with `##`) are mapped back to their root words, and their attention weights are summed.
+- High-attention terms are filtered to ignore punctuation, yielding the words that most drove the transformer's decision.

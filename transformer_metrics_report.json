@@ -1,0 +1,51 @@
+{
+  "model_name": "google/muril-base-cased",
+  "classification_report": {
+    "legit": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 31.0
+    },
+    "scam": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 32.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 63.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 63.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      31,
+      0
+    ],
+    [
+      0,
+      32
+    ]
+  ],
+  "eval_metrics": {
+    "eval_loss": 0.6069846749305725,
+    "eval_accuracy": 1.0,
+    "eval_precision": 1.0,
+    "eval_recall": 1.0,
+    "eval_f1": 1.0,
+    "eval_runtime": 2.7125,
+    "eval_samples_per_second": 23.226,
+    "eval_steps_per_second": 2.949,
+    "epoch": 3.0
+  }
+}

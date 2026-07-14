@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regional-Language SMS Phishing Detector</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: rgba(22, 26, 37, 0.65);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-primary: #8b5cf6; /* Violet */
+            --accent-secondary: #ec4899; /* Pink */
+            --gradient-accent: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --scam-color: #ef4444; /* Neon Red */
+            --scam-glow: rgba(239, 68, 68, 0.2);
+            --legit-color: #10b981; /* Neon Green */
+            --legit-glow: rgba(16, 185, 129, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+        }
+
+        header {
+            padding: 2.5rem 1rem 1rem;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-accent);
+            padding: 0.8rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .logo-container svg {
+            width: 2.5rem;
+            height: 2.5rem;
+            fill: white;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to right, #ffffff, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.5rem 3rem;
+            width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.8rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.02em;
+        }
+
+        textarea {
+            width: 100%;
+            height: 130px;
+            background: rgba(11, 12, 16, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1.05rem;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+            background: rgba(11, 12, 16, 0.8);
+        }
+
+        .inputs-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .inputs-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            background: rgba(11, 12, 16, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 0.8rem;
+            padding: 0.9rem 1.2rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
+            background: rgba(11, 12, 16, 0.8);
+        }
+
+        select option {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            flex-grow: 1;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.1rem;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .btn-check {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-clear {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-clear:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Results Section */
+        .results-card {
+            margin-top: 2.5rem;
+            border-radius: 1.2rem;
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            display: none; /* Controlled by JS */
+            animation: slideUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-card.scam {
+            background: rgba(239, 68, 68, 0.03);
+            border-color: rgba(239, 68, 68, 0.25);
+            box-shadow: 0 0 25px var(--scam-glow);
+        }
+
+        .results-card.legit {
+            background: rgba(16, 185, 129, 0.03);
+            border-color: rgba(16, 185, 129, 0.25);
+            box-shadow: 0 0 25px var(--legit-glow);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .verdict-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .scam .verdict-badge {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--scam-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .legit .verdict-badge {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--legit-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .confidence-label {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .confidence-value {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .scam .confidence-value { color: var(--scam-color); }
+        .legit .confidence-value { color: var(--legit-color); }
+
+        /* Confidence Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 1s ease-out;
+            border-radius: 5px;
+        }
+
+        .scam .progress-bar { background: var(--scam-color); }
+        .legit .progress-bar { background: var(--legit-color); }
+
+        /* Message Output Display with Highlighted Terms */
+        .annotated-text-container {
+            background: rgba(11, 12, 16, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.8rem;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .highlighted-term {
+            background: rgba(239, 68, 68, 0.2);
+            border-bottom: 2px solid var(--scam-color);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        /* Model Meta information */
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem;
+        }
+
+        /* Trigger list */
+        .trigger-list-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--text-main);
+        }
+
+        .trigger-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .trigger-tag {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            padding: 0.35rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .scam .trigger-tag {
+            background: rgba(239, 68, 68, 0.05);
+            border-color: rgba(239, 68, 68, 0.15);
+        }
+
+        /* Footer / Disclaimer */
+        footer {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            background: rgba(11, 12, 16, 0.4);
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 3px solid rgba(139, 92, 246, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--accent-primary);
+            animation: spin 1s linear infinite;
+            margin: 1.5rem auto 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <!-- Shield Alert Icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C17.5 2 20 4.5 20 9C20 14.5 15.5 19 12 21C8.5 19 4 14.5 4 9C4 4.5 6.5 2 12 2ZM12 7C11.4 7 11 7.4 11 8V12C11 12.6 11.4 13 12 13C12.6 13 13 12.6 13 12V8C13 7.4 12.6 7 12 7ZM12 15C11.4 15 11 15.4 11 16C11 16.6 11.4 17 12 17C12.6 17 13 16.6 13 16C13 15.4 12.6 15 12 15Z"/>
+            </svg>
+        </div>
+        <h1>Regional Phishing SMS Detector</h1>
+        <p class="subtitle">Defending consumers from financial fraud SMS/WhatsApp alerts in Hindi, Hinglish, and English.</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-group">
+                <label for="message">Paste SMS / WhatsApp Message</label>
+                <textarea id="message" placeholder="Type or paste message text here (e.g. 'Aapka account block ho gaya hai...')" required></textarea>
+            </div>
+
+            <div class="inputs-row">
+                <div class="form-group">
+                    <label for="model">Model Type</label>
+                    <select id="model">
+                        <option value="transformer">Fine-tuned Transformer (MuRIL) [Recommended]</option>
+                        <option value="baseline">Baseline (TF-IDF + Logistic Regression)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="sender">Sender Header (Optional - Baseline Only)</label>
+                    <input type="text" id="sender" placeholder="e.g. AD-SBI, VK-HDFCBK or phone number">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn-clear" onclick="clearAll()">Clear</button>
+                <button type="button" class="btn-check" onclick="checkMessage()">Analyze Message</button>
+            </div>
+
+            <div class="spinner" id="spinner"></div>
+
+            <!-- Results Card -->
+            <div class="results-card" id="results-card">
+                <div class="result-header">
+                    <div>
+                        <span class="confidence-label">Result Verdict</span>
+                        <div style="margin-top: 0.3rem;">
+                            <span class="verdict-badge" id="verdict-badge">Legitimate</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="confidence-label">Scam Probability</span>
+                        <div class="confidence-value" id="confidence-value">0.0%</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
+                <div class="trigger-container" id="trigger-container">
+                    <div class="trigger-list-title">Scam Triggering Words/Indicators:</div>
+                    <div class="trigger-tags" id="trigger-tags">
+                        <!-- tags injected here -->
+                    </div>
+                </div>
+
+                <div class="trigger-list-title">Analyzed Message (Triggering Terms Highlighted):</div>
+                <div class="annotated-text-container" id="annotated-text">
+                    <!-- Text with highlights -->
+                </div>
+
+                <div class="meta-info">
+                    <span id="meta-model">Model: -</span>
+                    <span id="meta-threshold">Threshold: -</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This tool is a prototype designed for educational and demonstration purposes. 
+            It is trained on placeholder SMS patterns and may make mistakes. 
+            Do not use this as a substitute for official validation from your bank, service provider, or government authorities. 
+            Always confirm transaction codes and alerts through official customer support channels.
+        </div>
+    </footer>
+
+    <script>
+        function clearAll() {
+            document.getElementById('message').value = '';
+            document.getElementById('sender').value = '';
+            document.getElementById('results-card').style.display = 'none';
+        }
+
+        // Helper to escape HTML characters in strings to prevent XSS during injection
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // Highlight matching triggering terms case-insensitively using Unicode-aware letter matching
+        function highlightText(text, terms) {
+            if (!terms || terms.length === 0) return escapeHtml(text);
+            
+            // Clean terms: remove flanking quotes, spaces, and lowercase them
+            const cleanTerms = terms.map(t => t.replace(/^'|'$/g, "").trim().toLowerCase());
+            
+            // Tokenize text into words/numbers (letters + combining marks + digits) and keep gaps
+            // This regex matches contiguous words across scripts (including Hindi + English)
+            const wordRegex = /([\p{L}\p{M}\d_]+)/gu;
+            
+            // Escape HTML of the base text first, then highlight matching words
+            const escaped = escapeHtml(text);
+            
+            return escaped.replace(wordRegex, (match) => {
+                const cleanMatch = match.toLowerCase();
+                if (cleanTerms.includes(cleanMatch)) {
+                    return `<span class="highlighted-term">${match}</span>`;
+                }
+                return match;
+            });
+        }
+
+        async function checkMessage() {
+            const message = document.getElementById('message').value.trim();
+            const model = document.getElementById('model').value;
+            const sender = document.getElementById('sender').value.trim();
+            const spinner = document.getElementById('spinner');
+            const resultsCard = document.getElementById('results-card');
+
+            if (!message) {
+                alert('Please enter or paste a message to analyze.');
+                return;
+            }
+
+            // Show loading
+            spinner.style.display = 'block';
+            resultsCard.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        model: model,
+                        sender: sender || null
+                    })
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.detail || 'API request failed.');
+                }
+
+                const data = await response.json();
+                
+                // Configure Results Card
+                resultsCard.className = 'results-card ' + (data.label === 'scam' ? 'scam' : 'legit');
+                
+                // Verdict Badge
+                const badge = document.getElementById('verdict-badge');
+                if (data.label === 'scam') {
+                    badge.innerHTML = '🚨 Flagged Scam';
+                } else {
+                    badge.innerHTML = '🛡️ Legitimate';
+                }
+
+                // Confidence text and progress bar
+                const scamProbPercent = (data.confidence * 100).toFixed(1);
+                document.getElementById('confidence-value').innerText = scamProbPercent + '%';
+                document.getElementById('progress-bar').style.width = scamProbPercent + '%';
+
+                // Injected highlights
+                document.getElementById('annotated-text').innerHTML = highlightText(message, data.top_triggering_terms);
+
+                // Trigger terms tags
+                const triggerContainer = document.getElementById('trigger-container');
+                const triggerTags = document.getElementById('trigger-tags');
+                triggerTags.innerHTML = '';
+                
+                if (data.top_triggering_terms && data.top_triggering_terms.length > 0) {
+                    triggerContainer.style.display = 'block';
+                    data.top_triggering_terms.forEach(term => {
+                        const cleanTerm = term.replace(/^'|'$/g, "");
+                        const tag = document.createElement('span');
+                        tag.className = 'trigger-tag';
+                        tag.innerText = cleanTerm;
+                        triggerTags.appendChild(tag);
+                    });
+                } else {
+                    triggerContainer.style.display = 'none';
+                }
+
+                // Metadata info
+                document.getElementById('meta-model').innerText = 'Model: ' + data.model_used;
+                document.getElementById('meta-threshold').innerText = 'Threshold: ' + (data.decision_threshold * 100).toFixed(0) + '%';
+                
+                // Display results
+                spinner.style.display = 'none';
+                resultsCard.style.display = 'block';
+
+            } catch (error) {
+                spinner.style.display = 'none';
+                alert('Analysis Error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
