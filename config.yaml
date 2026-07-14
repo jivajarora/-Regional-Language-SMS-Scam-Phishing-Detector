@@ -1,0 +1,102 @@
+# Configuration for Regional-Language SMS Phishing Detector
+
+paths:
+  seed_messages_path: "seed_messages.json"
+  dataset_csv_path: "dataset.csv"
+  model_dir: "models"
+  metrics_report_path: "metrics_report.json"
+  log_path: "logs/training.log"
+
+augmentation:
+  # Number of synthetic variants to generate per seed message
+  num_variants_per_scam: 12
+  num_variants_per_legit: 12
+
+keywords:
+  # Urgency keywords to flag messages requiring immediate action
+  urgency:
+    english:
+      - "immediately"
+      - "urgent"
+      - "now"
+      - "24 hours"
+      - "24hrs"
+      - "block"
+      - "suspend"
+      - "action required"
+      - "final notice"
+      - "expired"
+      - "last chance"
+      - "penalty"
+    hindi:
+      - "तुरंत"
+      - "जल्दी"
+      - "अभी"
+      - "बंद"
+      - "24 घंटे"
+      - "आवश्यक"
+      - "अंतिम सूचना"
+      - "जुर्माना"
+    hinglish:
+      - "turant"
+      - "jaldi"
+      - "abhi"
+      - "band"
+      - "block"
+      - "urgent"
+      - "immediately"
+      - "24 ghante"
+      - "jaldi kare"
+
+  # Keywords requesting sensitive information
+  credentials:
+    english:
+      - "otp"
+      - "pin"
+      - "cvv"
+      - "password"
+      - "passcode"
+      - "card details"
+      - "netbanking"
+      - "upi pin"
+    hindi:
+      - "ओटीपी"
+      - "पिन"
+      - "पासवर्ड"
+      - "कोड"
+      - "सीवीवी"
+      - "खाता"
+    hinglish:
+      - "otp"
+      - "pin"
+      - "password"
+      - "cvv"
+      - "code"
+      - "khata"
+      - "account"
+
+short_url_domains:
+  - "bit.ly"
+  - "tinyurl.com"
+  - "t.co"
+  - "goo.gl"
+  - "rebrand.ly"
+  - "tiny.cc"
+  - "is.gd"
+  - "buff.ly"
+  - "ow.ly"
+  - "wp.me"
+  - "v.gd"
+  - "short.url"
+  - "t.ly"
+
+model:
+  random_seed: 42
+  logistic_regression:
+    C: 1.0
+    max_iter: 1000
+    class_weight: "balanced"
+  random_forest:
+    n_estimators: 100
+    max_depth: null
+    class_weight: "balanced"

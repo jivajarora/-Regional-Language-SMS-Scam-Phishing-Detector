@@ -1,0 +1,146 @@
+[
+  {
+    "text": "Dear Customer, your {bank} Account has been suspended. Please update KYC immediately at {link} to avoid permanent block.",
+    "label": "scam",
+    "language": "english",
+    "sender": "AD-SHIELD"
+  },
+  {
+    "text": "Congratulations! You have won a cash lottery of {amount}. Claim your reward by calling {phone} now. Final notice.",
+    "label": "scam",
+    "language": "english",
+    "sender": "9876543210"
+  },
+  {
+    "text": "Urgent: Your credit card payment of {amount} is overdue. Pay immediately at {link} or card will be blocked within 24 hours.",
+    "label": "scam",
+    "language": "english",
+    "sender": "AD-PAYMENT"
+  },
+  {
+    "text": "Dear user, you have been selected for a part-time job earning {amount} daily. Contact us on WhatsApp {phone} to start now.",
+    "label": "scam",
+    "language": "english",
+    "sender": "+919999888877"
+  },
+  {
+    "text": "प्रिय ग्राहक, आपका {bank} खाता ब्लॉक कर दिया गया है। तुरंत अपना केवाईसी अपडेट करें: {link}।",
+    "label": "scam",
+    "language": "hindi",
+    "sender": "AD-KSHIELD"
+  },
+  {
+    "text": "बधाई हो! आपने {amount} रुपये की लॉटरी जीती है। तुरंत कॉल करें {phone} अपना इनाम पाने के लिए। आखरी मौका।",
+    "label": "scam",
+    "language": "hindi",
+    "sender": "918887776665"
+  },
+  {
+    "text": "आवश्यक सूचना: आपका एटीएम कार्ड बंद हो गया है। इसे चालू करने के लिए अपना ओटीपी साझा करें या {phone} पर कॉल करें।",
+    "label": "scam",
+    "language": "hindi",
+    "sender": "9000011111"
+  },
+  {
+    "text": "घर बैठे कमाएं {amount} रोज! बिना किसी निवेश के। संपर्क करें {phone} तुरंत।",
+    "label": "scam",
+    "language": "hindi",
+    "sender": "9222333444"
+  },
+  {
+    "text": "Dear customer, aapka {bank} account suspend ho gaya hai. KYC update karein turant link par click karein: {link}",
+    "label": "scam",
+    "language": "hinglish",
+    "sender": "VK-KYCALT"
+  },
+  {
+    "text": "Mubarak ho! Aapne jeeta hai {amount} cash lottery prize. Claim karne ke liye abhi call karein: {phone}",
+    "label": "scam",
+    "language": "hinglish",
+    "sender": "9777666555"
+  },
+  {
+    "text": "Urgent: Aapka account block hone wala hai. 24 ghante me KYC complete karein is link par: {link}",
+    "label": "scam",
+    "language": "hinglish",
+    "sender": "BZ-SUPPORT"
+  },
+  {
+    "text": "Ghar baithe kamaye {amount} daily part time job se. Join karne ke liye WhatsApp message karein: {phone}",
+    "label": "scam",
+    "language": "hinglish",
+    "sender": "+918888777766"
+  },
+  {
+    "text": "Your OTP for login to {bank} is {otp}. Valid for 10 minutes. Do not share this OTP with anyone.",
+    "label": "legit",
+    "language": "english",
+    "sender": "AD-SBIINB"
+  },
+  {
+    "text": "Dear customer, your account {account_no} has been credited with {amount} on {date}. Ref: {ref_no}.",
+    "label": "legit",
+    "language": "english",
+    "sender": "VK-HDFCBK"
+  },
+  {
+    "text": "Your package from Amazon is out for delivery today. OTP for verification is {otp}. Track status: {link}",
+    "label": "legit",
+    "language": "english",
+    "sender": "AD-AMAZON"
+  },
+  {
+    "text": "Dear customer, your bill of {amount} for number {phone} is generated. Due date is {date}. Pay via {bank} app.",
+    "label": "legit",
+    "language": "english",
+    "sender": "AD-JIOFBR"
+  },
+  {
+    "text": "लॉगिन के लिए आपका ओटीपी {otp} है। यह 10 मिनट के लिए मान्य है। इसे किसी के साथ साझा न करें।",
+    "label": "legit",
+    "language": "hindi",
+    "sender": "BZ-PAYTM"
+  },
+  {
+    "text": "प्रिय ग्राहक, आपके खाते {account_no} में {amount} रुपये क्रेडिट किए गए हैं। संदर्भ संख्या: {ref_no}।",
+    "label": "legit",
+    "language": "hindi",
+    "sender": "VK-BOBMSG"
+  },
+  {
+    "text": "आपका पार्सल आज डिलीवरी के लिए तैयार है। डिलीवरी पार्टनर को देने के लिए आपका ओटीपी {otp} है।",
+    "label": "legit",
+    "language": "hindi",
+    "sender": "AD-DTDCEX"
+  },
+  {
+    "text": "आपके {bank} क्रेडिट कार्ड का बिल {amount} रुपये जनरेट हुआ है। देय तिथि {date} है।",
+    "label": "legit",
+    "language": "hindi",
+    "sender": "AD-ICICIB"
+  },
+  {
+    "text": "{bank} par transaction ke liye aapka OTP {otp} hai. Kripya ise kisi se share na karein.",
+    "label": "legit",
+    "language": "hinglish",
+    "sender": "BZ-PHNPE"
+  },
+  {
+    "text": "Aapke account {account_no} me {amount} credit ho gaya hai. Transaction status check karne ke liye login karein.",
+    "label": "legit",
+    "language": "hinglish",
+    "sender": "VK-AXISBK"
+  },
+  {
+    "text": "Aapka order aaj deliver hoga. Delivery agent ko dene ke liye OTP hai: {otp}.",
+    "label": "legit",
+    "language": "hinglish",
+    "sender": "AD-EKART"
+  },
+  {
+    "text": "Dear customer, aapka {bank} card bill {amount} generate hua hai. Due date {date} hai.",
+    "label": "legit",
+    "language": "hinglish",
+    "sender": "VK-HDFCBK"
+  }
+]
