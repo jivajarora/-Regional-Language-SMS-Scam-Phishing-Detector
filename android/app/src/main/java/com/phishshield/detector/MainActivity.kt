@@ -425,7 +425,7 @@ class MainActivity : ComponentActivity() {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertCenter
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "Revoke Access Gates",
