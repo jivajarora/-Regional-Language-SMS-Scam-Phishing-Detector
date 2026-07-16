@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -168,7 +169,7 @@ class MainActivity : ComponentActivity() {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertCenter
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
                                     text = "Flagged Message Log (${logsList.size})",
@@ -379,7 +380,7 @@ class MainActivity : ComponentActivity() {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertCenter
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
                         Text(
@@ -463,7 +464,7 @@ class MainActivity : ComponentActivity() {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertCenter
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
                         Text(
@@ -480,7 +481,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Row(
-                        verticalAlignment = Alignment.CenterVertCenter,
+                        verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         val scorePct = (log.confidence * 100).toInt()
@@ -561,7 +562,7 @@ class MainActivity : ComponentActivity() {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertCenter
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "Feedback:",
@@ -595,7 +596,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         "confirmed" -> {
-                            Row(verticalAlignment = Alignment.CenterVertCenter) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     Icons.Default.CheckCircle,
                                     contentDescription = "Confirmed",
@@ -607,7 +608,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         "dismissed" -> {
-                            Row(verticalAlignment = Alignment.CenterVertCenter) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     Icons.Default.Info,
                                     contentDescription = "Dismissed",
